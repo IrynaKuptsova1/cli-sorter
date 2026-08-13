@@ -1,0 +1,17 @@
+{
+  "name": "01_cli_interactive-sort",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "undici-types": "^7.19.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "ts-node interactive-sort.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
