@@ -1,17 +1,13 @@
 {
-  "name": "01_cli_interactive-sort",
+  "name": "interactive-cli-sorter",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "dependencies": {
-    "undici-types": "^7.19.2"
-  },
-  "devDependencies": {},
+  "description": "Interactive CLI tool to sort and filter words and numbers",
+  "main": "index.ts",
   "scripts": {
-    "dev": "ts-node interactive-sort.ts"
+    "run-with-node": "node index.ts",
+    "run-with-bun": "bun index.ts"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "type": "module"
+  "license": "ISC"
 }
