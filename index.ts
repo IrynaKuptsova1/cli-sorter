@@ -33,9 +33,6 @@ function interactiveSort() {
   const stringKeys = ["a", "d", "e"] as const;
   const numberKeys = ["b", "c"] as const;
   const universalKeys = ["f"] as const;
-  const commandsNames = [
-    ...stringKeys, ...numberKeys, universalKeys
-  ]
 
   type StringKey = (typeof stringKeys)[number];
   type NumberKey = (typeof numberKeys)[number];
