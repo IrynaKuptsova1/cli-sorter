@@ -16,18 +16,35 @@ function interactiveSort() {
     const words: string[] = [];
     const numbers: number[] = [];
     items.forEach((item: string) => {
-      if (typeof Number(item)) {
+      try {
+        const potentialNum = Number(item);
+        if (typeof potentialNum === "number") {
+          numbers.push(potentialNum);
+        } else {
+          words.push(item);
+        }
+      } catch {
         words.push(item);
-      } else {
-        numbers.push(Number(item));
       }
     });
     return { words, numbers };
   }
 
-  interface CommandMap {
-    [key: string]: (data: any[]) => any;
-  }
+  const stringKeys = ["a", "d", "e"] as const;
+  const numberKeys = ["b", "c"] as const;
+  const universalKeys = ["f"] as const;
+  const commandsNames = [
+    ...stringKeys, ...numberKeys, universalKeys
+  ]
+
+  type StringKey = (typeof stringKeys)[number];
+  type NumberKey = (typeof numberKeys)[number];
+  type UniversalKey = (typeof universalKeys)[number];
+
+  type CommandMap = { [K in StringKey]: (data: string[]) => void } & {
+    [K in NumberKey]: (data: number[]) => void;
+  } & { [K in UniversalKey]: (data: (string | number)[]) => void };
+
   const commands: CommandMap = {
     // a. Sort words alphabetically
     a: (words) => {
@@ -90,16 +107,23 @@ function interactiveSort() {
         return;
       }
 
-      if (commands[command]) {
-        if (command === "f") {
-          commands[command](data);
-        } else if (command === "a" || command === "d" || command === "e") {
-          commands[command](words);
-        } else if (command === "b" || command === "c") {
-          commands[command](numbers);
+      function isKeyOf<T extends readonly string[]>(
+        key: any,
+        group: T,
+      ): key is T[number] {
+        return group.includes(key);
+      }
+
+      if (command in commands) {
+        if (isKeyOf(command, universalKeys)) {
+          commands[command](data); 
+        } else if (isKeyOf(command, stringKeys)) {
+          commands[command](words); 
+        } else if (isKeyOf(command, numberKeys)) {
+          commands[command](numbers); 
         }
       } else {
-        console.warn("Invalid command. Use a-f or x");
+        console.log("Invalid command. Use a-f or x");
       }
 
       askCommand();
@@ -117,14 +141,6 @@ function interactiveSort() {
     }
 
     const items = input.trim().split(/\s+/);
-
-    if (items.length !== 10) {
-      console.log(" Error: need 10 elements, but got ${items.length}");
-      console.log("Try again\n");
-      askForData();
-      return;
-    }
-
     main(items);
   }
   askForData();
